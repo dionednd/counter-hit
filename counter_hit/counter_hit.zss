@@ -1,0 +1,20 @@
+#===============================================================================
+# Global states (not halted by Pause/SuperPause, no helper limitations)
+#===============================================================================
+
+[StateDef -1]
+
+ignoreHitPause if gameMode = "training" {
+	if !isHelper && roundState = 2 && var(13) = 0 {
+		if Player(2), map(_iksys_CounterCustom) != 0
+		{
+			if (Player(2), map(_iksys_CounterCustom) = teamside || Player(2), map(_iksys_CounterCustom) = 3)
+			{
+				if enemynear, movetype = I && HitCount = 0
+				{
+					StateTypeSet{movetype: A;redirectID:enemynear,id}
+				}
+			}
+		}
+	}
+}

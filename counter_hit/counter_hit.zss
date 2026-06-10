@@ -5,18 +5,34 @@
 [StateDef -4]
 
 ignoreHitPause if gameMode = "training" {
-	if !isHelper && roundState = 2 {
+	if roundState = 2 {
 		if Player(2), map(_iksys_CounterCustom) != 0
 		{
 			if (Player(2), map(_iksys_CounterCustom) = teamside || Player(2), map(_iksys_CounterCustom) = 3)
 			{
-				if movetype = A && enemynear, movetype = I && HitCount = 0
+				if movetype = A && enemynear, movetype = I && HitCount = 0 && map(counterhit) = 0
 				{
+					map(dnd_counterhit) := 1;
 					StateTypeSet{movetype: A;redirectID:enemynear,id}
 				}
-				else if movetype != A && HitCount = 0
+			}
+		}
+	}
+}
+
+[StateDef +1]
+
+ignoreHitPause if gameMode = "training" {
+	if roundState = 2 {
+		if Player(2), map(_iksys_CounterCustom) != 0
+		{
+			if (Player(2), map(_iksys_CounterCustom) = teamside || Player(2), map(_iksys_CounterCustom) = 3)
+			{
+				if movehitvar(frame) && ComboCount = 1 {ModifyPlayer{movecountered:1}}
+				if map(dnd_counterhit) = 1
 				{
-					if enemynear, PrevMoveType = I {StateTypeSet{movetype: I;redirectID:enemynear,id}}
+					map(dnd_counterhit) := 0;
+					StateTypeSet{movetype: I;redirectID:enemynear,id}
 				}
 			}
 		}

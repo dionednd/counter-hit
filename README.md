@@ -1,1 +1,1 @@
-# counter-hit
+# Counter Hit Option for Traning Mode Menu
